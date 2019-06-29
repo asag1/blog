@@ -1,0 +1,23 @@
+.Button{
+    background: #0ee9d7;
+    border-radius: 3px;
+    padding: 5px 15px;
+    border: none;
+    box-shadow: none;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.Button_primary {
+    background: #0ee971;
+}
+.Button_primary:hover{
+    background: #012712;
+}
+.Button_secondary {
+    background: #c02b87;
+}
+.Button_secondary:hover{
+    background: #c7db12;
+}

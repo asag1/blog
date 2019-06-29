@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  background: rgb(236, 180, 180);
+}
+
+.topLine {
+  overflow: hidden;
+  background-color: #b46f6f;
+}
+
+.Username-input .Pasword-input .Button-login {
+  float: right;
+}
+.Search-box {
+  float: left;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .login-container {
+    float: none;
+  }
+}
+
+.topLine input[type="text"] {
+  border: 1px solid #ccc;
+  background: rgb(236, 180, 180);
+}
+.Header {
+  color: rgb(54, 53, 53);
+  font-family: "Lato", sans-serif;
+}
