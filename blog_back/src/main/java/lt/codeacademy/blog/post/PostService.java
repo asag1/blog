@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 
@@ -18,6 +19,10 @@ public class PostService {
         this.repository = repository;
     }
 
+    public Post save(Post post) {
+        return repository.save(post);
+    }
+
     List<PostView> getPostView() {
         return repository.findAll()
                 .stream()
@@ -26,16 +31,13 @@ public class PostService {
     }
 
     void updatePost(int id, PostView updatedPostView) {
-        Post post = find(id);
+        Post post = findForId(id);
 
         if (updatedPostView.getTitle() != null) {
             post.setTitle(updatedPostView.getTitle());
         }
         if (updatedPostView.getText() != null) {
             post.setText(updatedPostView.getText());
-        }
-        if (updatedPostView.getDate() != null) {
-            post.setDate(updatedPostView.getDate());
         }
         if (updatedPostView.getComments() != null) {
             post.setComments(updatedPostView.getComments());
@@ -44,7 +46,10 @@ public class PostService {
         repository.save(post);
     }
 
-    PostView addPost(PostView postView) {
+    public PostView addPost(PostView postView) {
+//        PostView post1 = mapFromView(postView);
+//
+//        post1.setDate(LocalDate.now());
         return mapToView(repository.save(mapFromView(postView)));
     }
 
@@ -53,15 +58,15 @@ public class PostService {
     }
 
     private Post mapFromView(PostView postView) {
-        return new Post(postView.getTitle(), postView.getText(), postView.getDate(), postView.getComments());
+        return new Post(postView.getTitle(), postView.getText(), postView.getData(), postView.getComments());
     }
 
-    private Post find(int id) {
+    private Post findForId(int id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("PostView not found"));
     }
 
     private PostView mapToView(Post post) {
-        return new PostView(post.getId(), post.getTitle(), post.getText(), post.getDate(), post.getComments());
+        return new PostView(post.getId(), post.getTitle(), post.getText(), post.getData(), post.getComments());
     }
 }

@@ -2,6 +2,7 @@ package lt.codeacademy.blog.user;
 
 import java.util.Objects;
 
+
 public class User {
 
     private String username;
@@ -11,6 +12,9 @@ public class User {
     private String password;
 
     private Role role;
+
+    public User() {
+    }
 
     public User(String username, String email, String password, Role role) {
         this.username = username;

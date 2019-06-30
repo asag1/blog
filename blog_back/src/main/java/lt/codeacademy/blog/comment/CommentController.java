@@ -1,43 +1,58 @@
 package lt.codeacademy.blog.comment;
 
 import lt.codeacademy.blog.config.NotFoundException;
+import lt.codeacademy.blog.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/comment")
 @CrossOrigin("*")
 public class CommentController {
 
-    private final CommentService service;
+    private final CommentService commentService;
+    private final PostService postService;
 
     @Autowired
-    public CommentController(CommentService service) {
-        this.service = service;
+    public CommentController(CommentService commentService, PostService postService) {
+        this.commentService = commentService;
+        this.postService = postService;
     }
 
-    @GetMapping
-    public List<CommentView> getComment() {
-        return service.getCommentView();
+//    @GetMapping
+//    public List<CommentView> getComment() {
+//        return commentService.getCommentView();
+//    }
+//    Gal nereikia
+
+    @PostMapping(path = "/addComment")
+    public String addComment(@Valid Comment comment, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "/commentForm";
+
+        } else {
+            commentService.save(comment);
+            return "redirect:/post/" + comment.getPost().getId();
+        }
     }
 
-    @PostMapping(path = "/add")
-    public CommentView addComment(@RequestBody CommentView commentView) {
-        return service.addComment(commentView);
-    }
+//        return service.addComment(commentView);
+//    }
 
-    @PutMapping(path = "/update/{id}")
-    public void updateComment(@PathVariable("id") int id, @RequestBody CommentView commentView) {
-        service.updateComment(id, commentView);
-    }
+//    @PutMapping(path = "/update/{id}")
+//    public void updateComment(@PathVariable("id") int id, @RequestBody CommentView commentView) {
+//        commentService.updateComment(id, commentView);
+//    }
 
     @DeleteMapping(path = "/delete/{id}")
     public void deleteComment(@PathVariable("id") int id) {
-        service.deletePost(id);
+        commentService.deletePost(id);
     }
 
     @ExceptionHandler({EmptyResultDataAccessException.class, NotFoundException.class})

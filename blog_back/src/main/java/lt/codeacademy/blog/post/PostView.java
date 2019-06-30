@@ -1,7 +1,6 @@
 package lt.codeacademy.blog.post;
 
 import lt.codeacademy.blog.comment.Comment;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,20 +15,18 @@ public class PostView {
 
     private String text;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    private LocalDate data;
 
     private List<Comment> comments = new ArrayList<>();
 
     public PostView() {
     }
 
-    public PostView(Long id, String title, String text, LocalDate date, List<Comment> comments) {
+    public PostView(Long id, String title, String text, LocalDate data, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.text = text;
-        this.date = date;
-        this.comments = comments;
+        this.data = data;
     }
 
     public Long getId() {
@@ -56,12 +53,12 @@ public class PostView {
         this.text = text;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public List<Comment> getComments() {
@@ -78,7 +75,7 @@ public class PostView {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", date=" + date +
+                ", postData=" + data +
                 ", comments=" + comments +
                 '}';
     }

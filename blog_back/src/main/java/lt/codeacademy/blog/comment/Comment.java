@@ -8,34 +8,35 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "comment")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "comment-id")
     private Long id;
 
+    @Column
     @NotNull(message = "*Please write something")
     private String comment;
 
-    private LocalDate date;
+    @Column
+    private LocalDate data;
+
+    @Column
+    private String answer;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "post_id", nullable = false)
+    @JoinColumn(name = "post", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_post_comment"))
     @NotNull
     private Post post;
-
-    private CommentRating rating;
 
     public Comment() {
     }
 
-    public Comment(@NotNull(message = "*Please write something") String comment, LocalDate date, @NotNull Post post, CommentRating rating) {
+    public Comment(@NotNull(message = "*Please write something") String comment, LocalDate data, String answer, @NotNull Post post) {
         this.comment = comment;
-        this.date = date;
+        this.data = data;
+        this.answer = answer;
         this.post = post;
-        this.rating = rating;
     }
 
     public Long getId() {
@@ -54,12 +55,20 @@ public class Comment {
         this.comment = comment;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Post getPost() {
@@ -70,22 +79,14 @@ public class Comment {
         this.post = post;
     }
 
-    public CommentRating getRating() {
-        return rating;
-    }
-
-    public void setRating(CommentRating rating) {
-        this.rating = rating;
-    }
-
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
-                ", date=" + date +
+                ", commentData=" + data +
+                ", answer='" + answer + '\'' +
                 ", post=" + post +
-                ", rating=" + rating +
                 '}';
     }
 

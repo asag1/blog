@@ -5,7 +5,7 @@ export const API_ENDPOINTS = {
   postUpdate: "/api/post/update",
   postDelete: "/api/post/delete",
   commentInfo: "/api/comment",
-  commentAdd: "/api/comment/add",
+  commentAdd: "/api/comment/addComment",
   commentUpdate: "/api/comment/update",
   commentDelete: "/api/comment/delete"
 };

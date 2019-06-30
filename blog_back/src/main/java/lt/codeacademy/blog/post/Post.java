@@ -1,6 +1,7 @@
 package lt.codeacademy.blog.post;
 
 import lt.codeacademy.blog.comment.Comment;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -9,33 +10,34 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "post_id")
     private Long id;
 
+    @Column
     @NotNull(message = "*Please provide title")
     private String title;
 
+    @Column(length = 8000)
     @NotNull(message = "*Please provide text")
     private String text;
 
-    private LocalDate date;
+    @Column
+    private LocalDate data;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     public Post() {
     }
 
-    public Post(@NotNull(message = "*Please provide title") String title, @NotNull(message = "*Please provide text") String text, LocalDate date, List<Comment> comments) {
+    public Post(@NotNull(message = "*Please provide title") String title, @NotNull(message = "*Please provide text") String text, LocalDate data, List<Comment> comments) {
         this.title = title;
         this.text = text;
-        this.date = date;
-        this.comments = comments;
+        this.data = data;
     }
 
     public Long getId() {
@@ -62,12 +64,12 @@ public class Post {
         this.text = text;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public List<Comment> getComments() {
@@ -84,7 +86,7 @@ public class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", date=" + date +
+                ", postData=" + data +
                 ", comments=" + comments +
                 '}';
     }

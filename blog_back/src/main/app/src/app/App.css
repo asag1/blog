@@ -14,18 +14,15 @@ body {
 }
 .Search-box {
   float: left;
+  width: 40%;
 }
 
 @media screen and (max-width: 600px) {
-  .topnav .login-container {
+  .topLine .login-container {
     float: none;
   }
 }
 
-.topLine input[type="text"] {
-  border: 1px solid #ccc;
-  background: rgb(236, 180, 180);
-}
 .Header {
   color: rgb(54, 53, 53);
   font-family: "Lato", sans-serif;

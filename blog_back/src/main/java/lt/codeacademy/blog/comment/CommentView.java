@@ -1,10 +1,10 @@
 package lt.codeacademy.blog.comment;
 
 import lt.codeacademy.blog.post.Post;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
 
 public class CommentView {
 
@@ -12,22 +12,21 @@ public class CommentView {
 
     private String comment;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    private LocalDate data;
+
+    private String answer;
 
     private Post post;
-
-    private CommentRating rating;
 
     public CommentView() {
     }
 
-    public CommentView(Long id, String comment, LocalDate date, Post post, CommentRating rating) {
+    public CommentView(Long id, String comment, LocalDate data, String answer, Post post) {
         this.id = id;
         this.comment = comment;
-        this.date = date;
+        this.data = data;
+        this.answer = answer;
         this.post = post;
-        this.rating = rating;
     }
 
     public Long getId() {
@@ -46,12 +45,20 @@ public class CommentView {
         this.comment = comment;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Post getPost() {
@@ -62,22 +69,14 @@ public class CommentView {
         this.post = post;
     }
 
-    public CommentRating getRating() {
-        return rating;
-    }
-
-    public void setRating(CommentRating rating) {
-        this.rating = rating;
-    }
-
     @Override
     public String toString() {
         return "CommentView{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
-                ", date=" + date +
+                ", commentData=" + data +
+                ", answer='" + answer + '\'' +
                 ", post=" + post +
-                ", rating=" + rating +
                 '}';
     }
 

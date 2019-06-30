@@ -7,37 +7,14 @@ import { fetchdelete } from "../../utils/delete";
 import { isModuleDeclaration } from "@babel/types";
 // import button from "../Botton"
 
-function Item(props) {
-  const clicked = async event => {
-    event.preventDefault();
-    const { title } = event.target;
-    console.log(title);
-
-    props.removePost(props.data.id);
-    await fetchdelete(API_ENDPOINTS.postDelete, title);
-  };
-
-  return (
-    <div className="Post--item">
-      <a className="Post--item" href={props.data.url}>
-        <span className="Post--item-title">{`Title: ${props.title}`}</span>
-        <span className="Post--item-text">{props.text}</span>
-      </a>
-      <button value={props.id} onClick={clicked}>
-        Delete
-      </button>
-      <button value={props.id} onClick={clicked}>
-        Update
-      </button>
-    </div>
-  );
-}
 
 function Post(props) {
   const { loading, data, setData } = useFetch(API_ENDPOINTS.postInfo);
+  
   const addPost = post => {
     setData([...data, post]);
   };
+
   const removePost = postId => {
     setData(data.filter(post => postId !== post.id));
   };
@@ -58,11 +35,13 @@ function Post(props) {
 
 function AddPostForm(props) {
   const initialFormState = { title: "", text: "" };
+
   const [post, setPost] = useState(initialFormState);
 
   const handleInputChange = event => {
     const { title, text } = event.target;
-    setPost({ ...post, title, text });
+   
+    setPost({ ...post, [title]: text });
   };
 
   const { loading, data } = useFetch(API_ENDPOINTS.postInfo);
@@ -74,7 +53,7 @@ function AddPostForm(props) {
 
     const response = await fetchpost(API_ENDPOINTS.postAdd, post);
     props.addPost(response);
-    setPost(initialFormState);
+    // setPost(initialFormState);
   };
 
   const newDate = new Date();
@@ -110,6 +89,32 @@ function AddPostForm(props) {
 
       <button className="Add-button">Add new Post</button>
     </form>
+  );
+}
+
+function Item(props) {
+  const clicked = async event => {
+    event.preventDefault();
+    const { title } = event.target;
+    console.log(title);
+
+    props.removePost(props.data.id);
+    await fetchdelete(API_ENDPOINTS.postDelete, title);
+  };
+
+  return (
+    <div className="Post--item">
+      <a className="Post--item" href={props.data.url}>
+        <span className="Post--item-title">{`Title: ${props.title}`}</span>
+        <span className="Post--item-text">{props.text}</span>
+      </a>
+      <button value={props.id} onClick={clicked}>
+        Delete
+      </button>
+      <button value={props.id} onClick={clicked}>
+        Update
+      </button>
+    </div>
   );
 }
 

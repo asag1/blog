@@ -4,6 +4,7 @@ import lt.codeacademy.blog.config.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,10 @@ public class CommentService {
         this.repository = repository;
     }
 
+    public Comment save(Comment comment) {
+        return repository.save(comment);
+    }
+
     List<CommentView> getCommentView() {
         return repository.findAll()
                 .stream()
@@ -24,22 +29,26 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+//    List<CommentView> findallForIrasas(int id) {
+//        return repository.(id)
+//                .stream()
+//                .map(this::mapToView)
+//                .collect(Collectors.toList());
+//
+//    }
+
     void updateComment(int id, CommentView updatedCommentView) {
         Comment comment = find(id);
 
         if (updatedCommentView.getComment() != null) {
             comment.setComment(updatedCommentView.getComment());
         }
-        if (updatedCommentView.getDate() != null) {
-            comment.setDate(updatedCommentView.getDate());
-        }
-        if (updatedCommentView.getRating() != null) {
-            comment.setRating(updatedCommentView.getRating());
-        }
         repository.save(comment);
     }
 
-    CommentView addComment(CommentView commentView) {
+    public CommentView addComment(CommentView commentView, int id) {
+//        comment.setComment(commentService.find(id));
+//        commentView.setDate(Date.);
         return mapToView(repository.save(mapFromView(commentView)));
     }
 
@@ -48,7 +57,7 @@ public class CommentService {
     }
 
     private Comment mapFromView(CommentView commentView) {
-        return new Comment(commentView.getComment(), commentView.getDate(), commentView.getPost(), commentView.getRating());
+        return new Comment(commentView.getComment(), commentView.getData(), commentView.getAnswer(), commentView.getPost());
     }
 
     private Comment find(int id) {
@@ -57,7 +66,7 @@ public class CommentService {
     }
 
     private CommentView mapToView(Comment comment) {
-        return new CommentView(comment.getId(), comment.getComment(), comment.getDate(), comment.getPost(), comment.getRating());
+        return new CommentView(comment.getId(), comment.getComment(), comment.getData(), comment.getAnswer(), comment.getPost());
     }
 }
 
